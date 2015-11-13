@@ -38,15 +38,12 @@ class NewVisitorTest(LiveServerTestCase):
 		inputbox.send_keys('Buy peacock feathers')
 
 		# When she hits enter, the page updates, and now the page lists
-		# "1. Buy peacock feathers" as an item in a to-do list table
+		# "1. Buy peacock feathers" as an item in a
+		# to-do list table
 		inputbox.send_keys(Keys.ENTER)
 		edith_list_url = self.browser.current_url
-		self.assertRegex(edith_list_url, '/list/.+')
+		self.assertRegex(edith_list_url, '/lists/.+')
 		self.check_for_row_in_list_table('1: Buy peacock feathers')
-
-		table = self.browser.find_element_by_id('id_list_table')
-		rows = table.find_elements_by_tag_name('tr')
-		self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
 
 		# There is still a text box inviting her to add another item. She
 		# enter "Use peacock feathers to make a fly" (Edith is very methodical)
@@ -55,8 +52,8 @@ class NewVisitorTest(LiveServerTestCase):
 		inputbox.send_keys(Keys.ENTER)
 
 		# The page update again, and now shows both items on her list
-		self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 		self.check_for_row_in_list_table('1: Buy peacock feathers')
+		self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
 		# Now a new user, Francis, comes along to the site.
 
@@ -89,3 +86,9 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertIn('Buy milk', page_text)
 
 		# Satisfied, they both go back to sleep
+
+		self.fail('Finish the test!')
+
+		# She visits that URL - her to-do list is still there.
+
+		# Stasfied, she goes back to sleep
